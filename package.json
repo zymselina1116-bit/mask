@@ -1,0 +1,16 @@
+{
+  "name": "mask",
+  "version": "1.0.0",
+  "description": "A browser-based augmented reality face filter that overlays cultural masks on your face in real-time and allows you to switch between masks using hand gestures.",
+  "main": "generate-masks.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:49211/git/zymselina1116-bit/mask"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

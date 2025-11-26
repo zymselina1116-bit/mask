@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultural Mask Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .canvas-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .mask-wrapper {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        canvas {
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            background: transparent;
+        }
+        .mask-name {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .instructions {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎭 Cultural Mask Generator</h1>
+
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <p>Click "Generate All Masks" to create culturally-authentic mask images.</p>
+        <p>Right-click on each mask and "Save Image As..." to download.</p>
+        <p>Save them to the <code>assets/masks/</code> folder with the correct filenames.</p>
+    </div>
+
+    <button onclick="generateAllMasks()">Generate All Masks</button>
+    <button onclick="downloadAllMasks()">Download All Masks</button>
+
+    <div class="canvas-container" id="canvas-container"></div>
+
+    <script>
+        const MASK_SIZE = 1000;
+        const masks = [
+            { id: 'japanese_noh', label: 'Japanese Noh Mask', generator: createJapaneseNohMask },
+            { id: 'african_tribal', label: 'African Tribal Mask', generator: createAfricanTribalMask },
+            { id: 'venetian', label: 'Venetian Carnival Mask', generator: createVenetianMask },
+            { id: 'beijing_opera', label: 'Beijing Opera Mask', generator: createBeijingOperaMask },
+            { id: 'mexican_dod', label: 'Mexican Day of the Dead Skull', generator: createDayOfTheDeadSkull }
+        ];
+
+        function generateAllMasks() {
+            const container = document.getElementById('canvas-container');
+            container.innerHTML = '';
+
+            masks.forEach(mask => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'mask-wrapper';
+
+                const canvas = document.createElement('canvas');
+                canvas.width = MASK_SIZE;
+                canvas.height = MASK_SIZE;
+                canvas.id = mask.id;
+                canvas.className = 'mask-canvas';
+
+                const name = document.createElement('div');
+                name.className = 'mask-name';
+                name.textContent = mask.label;
+
+                wrapper.appendChild(canvas);
+                wrapper.appendChild(name);
+                container.appendChild(wrapper);
+
+                // Generate the mask
+                mask.generator(canvas);
+            });
+        }
+
+        function downloadAllMasks() {
+            masks.forEach(mask => {
+                const canvas = document.getElementById(mask.id);
+                if (canvas) {
+                    const link = document.createElement('a');
+                    link.download = `${mask.id}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }
+            });
+        }
+
+        // ============================================================
+        // JAPANESE NOH MASK
+        // ============================================================
+        function createJapaneseNohMask(canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, MASK_SIZE, MASK_SIZE);
+
+            // Main face - pale white/ivory
+            ctx.fillStyle = '#F5F0E8';
+            ctx.beginPath();
+            ctx.ellipse(500, 520, 320, 400, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Subtle shading
+            const gradient = ctx.createRadialGradient(500, 500, 100, 500, 500, 400);
+            gradient.addColorStop(0, 'rgba(230, 220, 210, 0)');
+            gradient.addColorStop(1, 'rgba(200, 190, 180, 0.3)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.ellipse(500, 520, 320, 400, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Eye holes - narrow and angled
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.ellipse(400, 450, 40, 25, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(600, 450, 40, 25, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Eyebrows - thin, arched
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.arc(400, 400, 60, 0.8, 2.3);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(600, 400, 60, 0.8, 2.3);
+            ctx.stroke();
+
+            // Small mouth - subtle red
+            ctx.fillStyle = '#B8504A';
+            ctx.beginPath();
+            ctx.ellipse(500, 650, 35, 20, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Nose shadow
+            ctx.strokeStyle = 'rgba(150, 140, 130, 0.4)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(500, 500);
+            ctx.lineTo(500, 600);
+            ctx.stroke();
+        }
+
+        // ============================================================
+        // AFRICAN TRIBAL MASK
+        // ============================================================
+        function createAfricanTribalMask(canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, MASK_SIZE, MASK_SIZE);
+
+            // Main face - dark wood brown
+            ctx.fillStyle = '#4A2511';
+            ctx.beginPath();
+            ctx.ellipse(500, 500, 280, 450, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Forehead section - terracotta
+            ctx.fillStyle = '#C1440E';
+            ctx.beginPath();
+            ctx.ellipse(500, 300, 250, 150, 0, 0, Math.PI);
+            ctx.fill();
+
+            // Vertical lines on forehead
+            ctx.strokeStyle = '#F5F5DC';
+            ctx.lineWidth = 12;
+            for (let x = 350; x <= 650; x += 75) {
+                ctx.beginPath();
+                ctx.moveTo(x, 250);
+                ctx.lineTo(x, 400);
+                ctx.stroke();
+            }
+
+            // Horizontal stripes on cheeks
+            ctx.fillStyle = '#F5F5DC';
+            for (let y = 550; y <= 750; y += 50) {
+                ctx.fillRect(300, y, 400, 15);
+            }
+
+            // Eye holes
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.ellipse(400, 480, 50, 70, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(600, 480, 50, 70, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Nose - geometric triangle
+            ctx.fillStyle = '#8B4513';
+            ctx.beginPath();
+            ctx.moveTo(500, 520);
+            ctx.lineTo(470, 600);
+            ctx.lineTo(530, 600);
+            ctx.closePath();
+            ctx.fill();
+
+            // Mouth with teeth
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(420, 680, 160, 80);
+            ctx.fillStyle = '#F5F5DC';
+            for (let x = 430; x <= 570; x += 30) {
+                ctx.fillRect(x, 680, 15, 40);
+            }
+
+            // Decorative dots
+            ctx.fillStyle = '#FFD700';
+            for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 12) {
+                const x = 500 + Math.cos(angle) * 320;
+                const y = 500 + Math.sin(angle) * 480;
+                ctx.beginPath();
+                ctx.arc(x, y, 10, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // ============================================================
+        // VENETIAN CARNIVAL MASK
+        // ============================================================
+        function createVenetianMask(canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, MASK_SIZE, MASK_SIZE);
+
+            // Gold gradient
+            const goldGradient = ctx.createLinearGradient(0, 0, MASK_SIZE, MASK_SIZE);
+            goldGradient.addColorStop(0, '#FFD700');
+            goldGradient.addColorStop(0.5, '#FFA500');
+            goldGradient.addColorStop(1, '#FF8C00');
+
+            ctx.fillStyle = goldGradient;
+            ctx.beginPath();
+            ctx.ellipse(500, 450, 350, 300, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Ornate top
+            ctx.beginPath();
+            ctx.moveTo(500, 100);
+            ctx.quadraticCurveTo(400, 150, 350, 250);
+            ctx.lineTo(650, 250);
+            ctx.quadraticCurveTo(600, 150, 500, 100);
+            ctx.fill();
+
+            // White base
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.ellipse(500, 480, 300, 250, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Eye holes
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.ellipse(380, 450, 60, 45, -0.2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(620, 450, 60, 45, 0.2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Gold filigree
+            ctx.strokeStyle = '#DAA520';
+            ctx.lineWidth = 4;
+            for (let side = 0; side < 2; side++) {
+                const xBase = side === 0 ? 320 : 680;
+                const direction = side === 0 ? -1 : 1;
+
+                ctx.beginPath();
+                ctx.arc(xBase, 450, 80, 0, Math.PI * 2);
+                ctx.stroke();
+
+                for (let i = 0; i < 3; i++) {
+                    ctx.beginPath();
+                    ctx.arc(xBase + direction * i * 30, 400 - i * 20, 60 - i * 15, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+            }
+
+            // Gems
+            const gemColors = ['#FF0000', '#0000FF', '#00FF00', '#FF00FF'];
+            gemColors.forEach((color, i) => {
+                ctx.fillStyle = color;
+                const angle = (i / gemColors.length) * Math.PI + Math.PI / 2;
+                const x = 500 + Math.cos(angle) * 250;
+                const y = 450 + Math.sin(angle) * 200;
+                ctx.beginPath();
+                ctx.arc(x, y, 15, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.beginPath();
+                ctx.arc(x - 5, y - 5, 5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Border
+            ctx.strokeStyle = '#B8860B';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.ellipse(500, 450, 350, 300, 0, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        // ============================================================
+        // BEIJING OPERA MASK
+        // ============================================================
+        function createBeijingOperaMask(canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, MASK_SIZE, MASK_SIZE);
+
+            // Bold red face
+            ctx.fillStyle = '#DC143C';
+            ctx.beginPath();
+            ctx.ellipse(500, 520, 330, 420, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // White center stripe
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(450, 150, 100, 700);
+
+            // Black eyebrows
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.moveTo(350, 380);
+            ctx.quadraticCurveTo(320, 320, 380, 280);
+            ctx.lineTo(420, 320);
+            ctx.quadraticCurveTo(380, 360, 370, 400);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(650, 380);
+            ctx.quadraticCurveTo(680, 320, 620, 280);
+            ctx.lineTo(580, 320);
+            ctx.quadraticCurveTo(620, 360, 630, 400);
+            ctx.closePath();
+            ctx.fill();
+
+            // Eye holes
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.ellipse(400, 450, 45, 50, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(600, 450, 45, 50, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // White around eyes
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = 10;
+            ctx.beginPath();
+            ctx.ellipse(400, 450, 60, 65, 0, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(600, 450, 60, 65, 0, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Nose
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.moveTo(500, 480);
+            ctx.lineTo(460, 580);
+            ctx.lineTo(500, 600);
+            ctx.lineTo(540, 580);
+            ctx.closePath();
+            ctx.fill();
+
+            // Mouth
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.ellipse(500, 700, 120, 80, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Fangs
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.moveTo(450, 680);
+            ctx.lineTo(440, 720);
+            ctx.lineTo(470, 700);
+            ctx.closePath();
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(550, 680);
+            ctx.lineTo(560, 720);
+            ctx.lineTo(530, 700);
+            ctx.closePath();
+            ctx.fill();
+
+            // Gold forehead decoration
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(500, 250, 40, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Cheek swirls
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.arc(320, 600, 40, 0, Math.PI * 1.5);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(680, 600, 40, Math.PI * 0.5, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        // ============================================================
+        // DAY OF THE DEAD SKULL
+        // ============================================================
+        function createDayOfTheDeadSkull(canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, MASK_SIZE, MASK_SIZE);
+
+            // White skull
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.ellipse(500, 520, 330, 400, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Black eye sockets
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(400, 420, 80, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(600, 420, 80, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Colorful flower patterns
+            const colors = ['#FF1493', '#FF4500', '#FFD700', '#00CED1', '#9370DB'];
+
+            // Left eye flowers
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const x = 400 + Math.cos(angle) * 100;
+                const y = 420 + Math.sin(angle) * 100;
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.beginPath();
+                ctx.arc(x, y, 20, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#FFD700';
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Right eye flowers
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const x = 600 + Math.cos(angle) * 100;
+                const y = 420 + Math.sin(angle) * 100;
+                ctx.fillStyle = colors[(i + 2) % colors.length];
+                ctx.beginPath();
+                ctx.arc(x, y, 20, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#FFD700';
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Heart-shaped nose
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.moveTo(500, 580);
+            ctx.lineTo(470, 540);
+            ctx.lineTo(500, 520);
+            ctx.lineTo(530, 540);
+            ctx.closePath();
+            ctx.fill();
+
+            // Forehead flower
+            ctx.fillStyle = '#FF1493';
+            ctx.beginPath();
+            ctx.arc(500, 280, 60, 0, Math.PI * 2);
+            ctx.fill();
+
+            for (let i = 0; i < 6; i++) {
+                const angle = (i / 6) * Math.PI * 2;
+                const x = 500 + Math.cos(angle) * 80;
+                const y = 280 + Math.sin(angle) * 80;
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.beginPath();
+                ctx.arc(x, y, 30, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Teeth
+            ctx.fillStyle = '#000000';
+            const teethCount = 10;
+            const teethWidth = 500 / teethCount;
+            for (let i = 0; i < teethCount; i++) {
+                const x = 250 + i * (500 / teethCount);
+                ctx.fillRect(x, 750, teethWidth - 5, 80);
+            }
+
+            // Cheek swirls
+            ctx.strokeStyle = '#00CED1';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.arc(320, 620, 50, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(320, 620, 70, 0, Math.PI * 1.5);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(680, 620, 50, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(680, 620, 70, Math.PI * 0.5, Math.PI * 2);
+            ctx.stroke();
+
+            // Decorative dots
+            for (let i = 0; i < 30; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const radius = 200 + Math.random() * 150;
+                const x = 500 + Math.cos(angle) * radius;
+                const y = 520 + Math.sin(angle) * radius;
+                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                ctx.beginPath();
+                ctx.arc(x, y, 5 + Math.random() * 10, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Auto-generate on page load
+        window.onload = () => {
+            generateAllMasks();
+        };
+    </script>
+</body>
+</html>

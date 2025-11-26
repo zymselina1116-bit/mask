@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultural Mask AR Filter</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- MediaPipe Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Camera Permission Screen -->
+        <div id="permission-screen">
+            <div class="permission-content">
+                <h1>Cultural Mask AR Filter</h1>
+                <p>This app needs camera access to detect your face and hands</p>
+                <button id="enable-camera-btn">Enable Camera</button>
+            </div>
+        </div>
+
+        <!-- Main AR View -->
+        <div id="ar-view" style="display: none;">
+            <!-- Video element for webcam -->
+            <video id="webcam" autoplay playsinline></video>
+
+            <!-- Canvas for mask overlay -->
+            <canvas id="mask-canvas"></canvas>
+
+            <!-- UI Feedback -->
+            <div id="ui-overlay">
+                <div class="instruction">
+                    Swipe your hand across your face to change masks
+                </div>
+                <div class="current-mask">
+                    Current mask: <span id="mask-name">Loading...</span>
+                </div>
+                <div id="swipe-feedback" class="swipe-feedback">
+                    Swipe Detected! 🎭
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loading-indicator">
+                <div class="loader"></div>
+                <p>Loading face and hand tracking...</p>
+            </div>
+        </div>
+
+        <!-- Error Screen -->
+        <div id="error-screen" style="display: none;">
+            <div class="error-content">
+                <h2>⚠️ Error</h2>
+                <p id="error-message"></p>
+                <button id="retry-btn">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

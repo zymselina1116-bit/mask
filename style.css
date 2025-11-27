@@ -161,6 +161,38 @@ body {
     opacity: 1;
 }
 
+.layer-reveal-feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 206, 209, 0.9);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 15px;
+    font-size: 1.5em;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 8px 32px rgba(0, 206, 209, 0.5);
+    border: 2px solid rgba(0, 255, 255, 0.6);
+}
+
+.layer-reveal-feedback.show {
+    opacity: 1;
+    animation: revealPulse 1s ease-in-out;
+}
+
+@keyframes revealPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
 /* Loading Indicator */
 #loading-indicator {
     position: absolute;

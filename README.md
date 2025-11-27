@@ -6,8 +6,11 @@ A browser-based augmented reality face filter that overlays cultural masks on yo
 
 - **Real-time face tracking** using MediaPipe Face Mesh (478 facial landmarks)
 - **AR mask overlay** that follows head movement, rotation, and scaling
-- **Hand gesture control** - Swipe your hand across your face to switch masks
+- **Dual-hand gesture controls**:
+  - **Right hand swipe** - Switch between masks
+  - **Left hand forward push** - Layer Reveal Mode (deconstructs mask in stages)
 - **5 cultural masks** from different traditions around the world
+- **Layer reveal animation** - See mask construction from decorations to base layer
 - **Smooth animations** and visual feedback
 - **Automatic placeholder generation** if mask images are missing
 
@@ -67,8 +70,20 @@ Navigate to: `http://localhost:8000`
 1. Click "Enable Camera" to grant camera permission
 2. Wait for face and hand tracking to initialize
 3. Your face will be detected and a mask will appear
-4. To switch masks: **Swipe your hand across your face** (left to right or right to left)
+4. **Gesture Controls:**
+   - **Right hand swipe** across face: Switch to next mask
+   - **Left hand push forward**: Trigger Layer Reveal Mode (deconstructs mask in layers)
 5. Current mask name is displayed in the bottom-right corner
+
+### Layer Reveal Mode
+
+When you push your **left hand forward** toward the camera:
+- The mask visually "deconstructs" in 3 stages over ~1 second
+- **Stage 1**: Outer decorations/patterns fade away
+- **Stage 2**: Mid-layer patterns dissolve
+- **Stage 3**: Base shape/color revealed
+- Includes a glowing cyan outline effect during animation
+- Shows how the mask is built from layers
 
 ## Customization
 
@@ -85,7 +100,7 @@ const MASK_CONFIG = {
 };
 ```
 
-### Adjust Gesture Sensitivity
+### Adjust Right-Hand Swipe Sensitivity
 
 ```javascript
 const GESTURE_CONFIG = {
@@ -93,6 +108,19 @@ const GESTURE_CONFIG = {
     maxSwipeTime: 600,          // Maximum swipe time (ms)
     minSwipeTime: 300,          // Minimum swipe time (ms)
     cooldownTime: 1000,         // Delay between switches (ms)
+};
+```
+
+### Adjust Left-Hand Layer Reveal Sensitivity
+
+```javascript
+const LAYER_REVEAL_CONFIG = {
+    minZDepthChange: 0.08,      // Z-depth decrease to trigger (0-1)
+    maxRevealTime: 400,         // Max time for forward motion (ms)
+    minRevealTime: 200,         // Min time for forward motion (ms)
+    cooldownTime: 1000,         // Delay between reveals (ms)
+    animationDuration: 1000,    // Animation length (ms)
+    leftSideThreshold: 0.5,     // Must be on left half of screen
 };
 ```
 
@@ -112,9 +140,9 @@ const MASKS = [
 - **HTML5** - Structure
 - **CSS3** - Styling and animations
 - **JavaScript (ES6+)** - Logic and interactivity
-- **MediaPipe Face Mesh** - Face detection and landmark tracking
-- **MediaPipe Hands** - Hand detection and gesture recognition
-- **Canvas API** - Mask rendering
+- **MediaPipe Face Mesh** - Face detection and landmark tracking (478 points)
+- **MediaPipe Hands** - Dual-hand detection with Z-depth tracking
+- **Canvas API** - Mask rendering with layer compositing effects
 
 ## Browser Compatibility
 
